@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskapp/Provider/theme.dart';
-import 'home.dart';
+import 'Screens/home.dart';
 
 void main() {
   runApp(MyApp());

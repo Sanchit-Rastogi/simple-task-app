@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "604431471522",
+    "firebase_url": "https://simple-task-app-a913d.firebaseio.com",
+    "project_id": "simple-task-app-a913d",
+    "storage_bucket": "simple-task-app-a913d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604431471522:android:397854a1e0906a8ad6d8fb",
+        "android_client_info": {
+          "package_name": "com.sanchitrastogi.taskapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "604431471522-mnubgkocg6tgcqlg28fm9k59a4f7vqrb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA334Lg9kHE8WAETGaPaJE1Kj2QMUbvpao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "604431471522-mnubgkocg6tgcqlg28fm9k59a4f7vqrb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

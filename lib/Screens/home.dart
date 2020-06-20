@@ -1,10 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taskapp/Provider/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,19 +15,43 @@ class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _enabled = true;
   bool _checkLanguage = false;
+  String selectedLanguage = 'English';
   var url = 'http://165.22.19.126:4000/';
   List<Languages> langNames = [];
+  Firestore _db = Firestore.instance;
+  String userID = 'user_uuid_101';
+
+  void updateData() async {
+    await _db.collection('user_settings').document('user_uuid_101').updateData({
+      'dark_mode_on': _enabled,
+      'language': selectedLanguage,
+    });
+  }
+
+  void setData() async {
+    ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context, listen: false);
+    //var d = await _db.collection('user_settings').where({"author", "==", userID}).getDocuments();
+    var data = await _db.collection('user_settings').document('user_uuid_101').get();
+    setState(() {
+      _enabled = data.data['dark_mode_on'];
+      selectedLanguage = data.data['language'];
+    });
+    _enabled == true ? _themeChanger.setTheme(ThemeData.dark()) : _themeChanger.setTheme(ThemeData.light());
+  }
 
   void getData() async {
     var response = await http.get(url);
     var data = jsonDecode(response.body);
     var names = data['languages'];
     for (var i in names) {
-      langNames.add(Languages(name: i, isApplied: i == 'English' ? true : false));
+      langNames.add(Languages(name: i, isApplied: i == selectedLanguage ? true : false));
     }
   }
 
   void unCheck(String name) {
+    setState(() {
+      selectedLanguage = name;
+    });
     for (var i in langNames) {
       if (i.name != name) {
         setState(() {
@@ -40,6 +64,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
+      setData();
       getData();
     });
     super.initState();
@@ -81,6 +106,7 @@ class _HomeState extends State<Home> {
                           _enabled = value;
                         });
                         _enabled ? _themeChanger.setTheme(ThemeData.dark()) : _themeChanger.setTheme(ThemeData.light());
+                        updateData();
                       },
                     ),
                     onTap: () {
@@ -127,6 +153,7 @@ class _HomeState extends State<Home> {
                                 lang.isApplied = value;
                               });
                               unCheck(lang.name);
+                              updateData();
                             },
                           ),
                         );
